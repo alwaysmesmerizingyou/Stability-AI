@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stable Diffusion 3.5 - AI Image Generator</title>
+    <meta name="description" content="Generate amazing AI images using Stability AI's Stable Diffusion 3.5 models">
+    <meta name="theme-color" content="#000000">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎨</text></svg>">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Google Fonts & Stylesheet -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Stability AI</h1>
+            <p>High-quality text-to-image generation</p>
+        </header>
+
+        <main>
+            <div class="input-section">
+                <div class="prompt-box">
+                    <div class="api-key-container">
+                        <i class="fa-solid fa-key api-key-icon"></i>
+                        <input type="password" id="api-key" placeholder="Enter your Stability AI API Key (sk-...)"
+                            required>
+                        <button id="save-key-btn" title="Save API Key"><i class="fa-solid fa-save"></i></button>
+                        <a href="https://platform.stability.ai/account/keys" target="_blank" rel="noopener"
+                            class="api-key-help">Get
+                            Key</a>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="prompt"><i class="fa-solid fa-align-left"></i> Prompt <span
+                                class="required">*</span></label>
+                        <textarea id="prompt"
+                            placeholder="e.g., A cinematic photo of a raccoon in a library, reading a book..." rows="3"
+                            required></textarea>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="negative-prompt"><i class="fa-solid fa-ban"></i> Negative Prompt (optional)</label>
+                        <textarea id="negative-prompt" placeholder="e.g., blurry, low quality, text, watermark, ugly"
+                            rows="2"></textarea>
+                    </div>
+
+                    <div class="advanced-options">
+                        <details>
+                            <summary>Advanced Settings <i class="fa-solid fa-chevron-down"></i></summary>
+                            <div class="controls-grid">
+                                <div class="control-group">
+                                    <label for="model-select"><i class="fa-solid fa-cubes"></i> Model <span
+                                            id="credits-info" class="credits-info"></span></label>
+                                    <select id="model-select" class="form-control"></select>
+                                </div>
+                                <div class="control-group">
+                                    <label for="aspect-ratio"><i class="fa-solid fa-crop-simple"></i> Aspect
+                                        Ratio</label>
+                                    <select id="aspect-ratio" class="form-control">
+                                        <option value="1:1">Square (1:1)</option>
+                                        <option value="16:9" selected>Widescreen (16:9)</option>
+                                        <option value="9:16">Vertical (9:16)</option>
+                                        <option value="4:5">Portrait (4:5)</option>
+                                        <option value="3:2">Classic (3:2)</option>
+                                        <option value="21:9">Cinematic (21:9)</option>
+                                    </select>
+                                </div>
+                                <div class="control-group">
+                                    <label for="style-preset">
+                                        <i class="fa-solid fa-brush"></i> Style Preset
+                                        <span class="tooltip-container">
+                                            <i class="fa-regular fa-circle-question"></i>
+                                            <span class="tooltip-text">Presets can strongly influence the subject. For a
+                                                literal interpretation of your prompt, choose '(none)'.</span>
+                                        </span>
+                                    </label>
+                                    <select id="style-preset" class="form-control">
+                                        <option value="">(none)</option>
+                                        <option value="photographic">Photographic</option>
+                                        <option value="cinematic">Cinematic</option>
+                                        <option value="digital-art">Digital Art</option>
+                                        <option value="fantasy-art">Fantasy Art</option>
+                                        <option value="anime">Anime</option>
+                                        <option value="3d-model">3D Model</option>
+                                        <option value="analog-film">Analog Film</option>
+                                        <option value="comic-book">Comic Book</option>
+                                        <option value="enhance">Enhance</option>
+                                        <option value="isometric">Isometric</option>
+                                        <option value="line-art">Line Art</option>
+                                    </select>
+                                </div>
+                                <div class="control-group">
+                                    <label for="steps"><i class="fa-solid fa-sliders"></i> Steps: <span
+                                            id="steps-value">30</span></label>
+                                    <input type="range" id="steps" min="10" max="50" value="30" class="slider">
+                                </div>
+                                <div class="control-group">
+                                    <label for="cfg-scale"><i class="fa-solid fa-sliders"></i> CFG Scale: <span
+                                            id="cfg-scale-value">4.5</span></label>
+                                    <input type="range" id="cfg-scale" min="1" max="10" step="0.5" value="4.5"
+                                        class="slider">
+                                </div>
+                                <div class="control-group">
+                                    <label for="seed"><i class="fa-solid fa-dice"></i> Seed</label>
+                                    <input type="number" id="seed" min="0" max="4294967294" value="0"
+                                        placeholder="0 for random" class="form-control">
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <button id="generate-btn">
+                        <span class="btn-text"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate Image</span>
+                        <span class="btn-loading">
+                            <span class="spinner"></span>
+                            <span>Generating...</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="result-section">
+                <!-- Initial State Placeholder -->
+                <div id="placeholder" class="result-state">
+                    <i class="fa-regular fa-image placeholder-icon"></i>
+                    <p>Your generated image will appear here.</p>
+                    <span>Start by entering a prompt above and clicking generate.</span>
+                </div>
+                <!-- Loading State -->
+                <div id="loading" class="result-state hidden">
+                    <div class="spinner"></div>
+                    <p>Generating your masterpiece...</p>
+                    <span class="loading-subtext">This can take a few moments.</span>
+                </div>
+                <!-- Result State -->
+                <div id="result" class="result-state hidden">
+                    <div class="image-container">
+                        <img id="generated-image" alt="Generated image">
+                    </div>
+                    <div class="actions">
+                        <button id="download-btn"><i class="fa-solid fa-download"></i> Download</button>
+                        <button id="new-prompt-btn"><i class="fa-solid fa-arrow-rotate-left"></i> Start Over</button>
+                    </div>
+                </div>
+                <!-- Error State -->
+                <div id="error" class="result-state hidden">
+                    <i class="fa-solid fa-triangle-exclamation error-icon"></i>
+                    <p id="error-message">An error occurred.</p>
+                    <span>Please check your API key and prompt, then try again.</span>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Powered by <a href="https://stability.ai/" target="_blank" rel="noopener noreferrer">Stability AI</a></p>
+            <p class="disclaimer">You need your own Stability AI API key. Images are generated on Stability's servers
+                and are not stored by this tool.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
