@@ -1,34 +1,33 @@
-# Stable Diffusion 3.5 Text-to-Image Generator
+# Stability AI Text-to-Image Generator
 
-A simple web interface for generating images using the Stability AI Stable Diffusion 3.5 Large model via the Hugging Face Inference API.
+A simple web interface for generating images using the Stability AI Stable Diffusion 3.5 model.
 
 ## Features
 
 - Generate high-quality images from text prompts
-- Adjust generation parameters like steps
+- Adjust generation parameters like steps and guidance scale
 - Negative prompting to exclude unwanted elements
 - Download generated images
 - Responsive design that works on desktop and mobile
+- Save your API key for future use
 
 ## Prerequisites
 
-1. A Hugging Face account
-2. A Hugging Face API token with access to the Stable Diffusion 3.5 Large model
+1. A Stability AI account
+2. A Stability AI API key
 
 ## Setup Instructions
 
-1. **Get your Hugging Face API token**:
-   - Go to [Hugging Face](https://huggingface.co/)
+1. **Get your Stability AI API key**:
+   - Go to [Stability AI Platform](https://platform.stability.ai/)
    - Sign up or log in to your account
-   - Go to your profile → Settings → Access Tokens
-   - Create a new token with read access
+   - Navigate to your account settings
+   - Create a new API key
 
-2. **Configure the application**:
-   - Open the `script.js` file
-   - Replace `YOUR_HUGGINGFACE_API_KEY` with your actual Hugging Face API token
-
-3. **Run the application**:
+2. **Run the application**:
    - Open the `index.html` file in a modern web browser
+   - Enter your Stability AI API key when prompted
+   - Click "Save" to store your API key for future use
    - Alternatively, use a local server to serve the files (recommended)
 
 ## Using a Local Server (Recommended)
@@ -64,18 +63,21 @@ Then open `http://localhost:8000` in your browser.
 
 ## Usage
 
-1. Enter a detailed description of the image you want to generate in the prompt box
-2. (Optional) Add a negative prompt to exclude unwanted elements
-3. Adjust the number of generation steps (more steps = higher quality but slower generation)
-4. Click "Generate Image"
-5. Wait for the image to be generated (this may take some time)
-6. Download the image or generate a new one
+1. Enter your Stability AI API key (only required on first use)
+2. Enter a detailed description of the image you want to generate in the prompt box
+3. (Optional) Add a negative prompt to exclude unwanted elements
+4. Adjust the generation parameters:
+   - Steps: More steps = higher quality but slower generation
+   - Guidance Scale: Higher values make the output closer to the prompt
+5. Click "Generate Image"
+6. Wait for the image to be generated
+7. Download the image or generate a new one
 
 ## Notes
 
-- The first generation might take longer as the model loads
-- For best results, be specific in your prompts
-- The free tier of the Hugging Face Inference API has rate limits
+- Your API key is stored locally in your browser's local storage
+- For best results, be specific and detailed in your prompts
+- The generation time depends on the number of steps and server load
 
 ## License
 
